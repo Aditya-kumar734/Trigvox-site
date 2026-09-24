@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigvox — Chrome Preview</title>
+<style>
+:root{--bg:#07101f;--panel:#0d1a2d;--panel2:#10233b;--blue:#10bdf3;--blue2:#1677ff;--text:#f6f8ff;--muted:#91a1b8;--danger:#ff4d61;--green:#22d3a2}
+*{box-sizing:border-box}body{margin:0;background:#020712;color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+button,input{font:inherit}.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px}
+.phone{width:390px;max-width:100%;height:820px;max-height:94vh;background:linear-gradient(160deg,#071427,#06101e 60%,#091a30);border:8px solid #151b27;border-radius:42px;box-shadow:0 25px 80px #000b;overflow:hidden;position:relative}
+.status{height:30px;padding:8px 18px 0;display:flex;justify-content:space-between;font-size:11px;color:#dce8f8}
+.screen{height:calc(100% - 30px);overflow:auto;padding:20px 18px 88px;scrollbar-width:none}.screen::-webkit-scrollbar{display:none}
+.splash{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.logo{width:105px;height:105px;border-radius:30px;background:#071426;border:2px solid #0bbdf4;box-shadow:0 0 35px #087fe866;display:grid;place-items:center;margin-bottom:20px}
+.logo svg{width:78px;height:78px}.brand{font-size:43px;font-weight:900;letter-spacing:-2px}.brand span{color:var(--blue)}.tag{letter-spacing:4px;font-size:10px;color:#b8c5d8;margin-top:8px}.loading{margin-top:40px;color:var(--muted);font-size:12px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.hello{font-size:22px;font-weight:850}.sub{color:var(--muted);font-size:12px;margin-top:4px}.avatar{width:43px;height:43px;border-radius:14px;background:#132b48;display:grid;place-items:center;color:var(--blue);font-weight:900}
+.hero{background:linear-gradient(135deg,#078cf7,#144ee9);border-radius:22px;padding:19px;margin-bottom:22px;box-shadow:0 15px 35px #006eff2c}.hero small{color:#d5edff;font-size:10px;letter-spacing:1.5px;font-weight:800}.hero h2{margin:5px 0;font-size:27px}.hero p{margin:0;color:#d7eaff;font-size:12px}
+.section{font-weight:850;font-size:17px;margin:18px 0 10px}.row,.card{background:rgba(15,31,51,.9);border:1px solid #19304c;border-radius:17px;padding:13px;margin-bottom:9px}.row{display:flex;align-items:center;gap:12px;cursor:pointer}.contactIcon{width:45px;height:45px;border-radius:14px;background:#152e4b;display:grid;place-items:center;font-size:22px}.grow{flex:1}.name{font-weight:800}.number,.small{color:var(--muted);font-size:11px;margin-top:3px}.call{width:39px;height:39px;border-radius:13px;background:#123e66;color:var(--blue);display:grid;place-items:center}
+.primary{width:100%;border:0;border-radius:14px;padding:14px;background:linear-gradient(90deg,#078ff7,#2460ff);color:white;font-weight:800;cursor:pointer}.outline{width:100%;border:1px solid #118ff0;border-radius:13px;padding:12px;background:transparent;color:#5ecfff;font-weight:800;cursor:pointer;margin-top:12px}
+.login{height:100%;display:flex;flex-direction:column;justify-content:center}.login .brand{text-align:center}.field{margin:10px 0}.field label{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:1px}.field input{width:100%;margin-top:7px;background:#0c1b2e;border:1px solid #203854;color:white;border-radius:12px;padding:13px;outline:none}
+.nav{position:absolute;left:10px;right:10px;bottom:10px;height:63px;border-radius:20px;background:#0b1829ee;border:1px solid #1a314d;display:flex;justify-content:space-around;align-items:center}.nav button{background:none;border:0;color:#75869d;font-size:10px;cursor:pointer}.nav b{display:block;font-size:19px;margin-bottom:2px}.nav .active{color:#22bfff}
+.pageTitle{font-size:27px;font-weight:900;margin:5px 0}.account{display:flex;align-items:center;gap:13px;padding:15px;background:#0d1c30;border:1px solid #1b3552;border-radius:17px;margin:10px 0;cursor:pointer}.account.selected{border-color:#159cf5;box-shadow:0 0 0 1px #159cf544}.radio{margin-left:auto;color:#16bdf5;font-size:20px}
+.history{display:flex;gap:12px;align-items:center;background:#0d1c30;border:1px solid #1b3552;border-radius:16px;padding:13px;margin:9px 0}
+.empty{text-align:center;padding:45px 15px;color:var(--muted)}.danger{width:100%;background:transparent;border:1px solid #ff5364;color:#ff7180;padding:12px;border-radius:13px;cursor:pointer;margin-top:10px}
+.overlay{position:absolute;inset:0;background:#010713eF;display:flex;align-items:center;justify-content:center;padding:20px;z-index:5}.modal{width:100%;background:#0d1b2e;border:1px solid #24405f;border-radius:27px;padding:25px;text-align:center;box-shadow:0 20px 60px #000}.ring{width:80px;height:80px;border-radius:50%;margin:auto;background:#102b49;border:3px solid #0abdf3;display:grid;place-items:center;color:#5edaff;font-size:28px}.count{font-size:70px;font-weight:900;color:#27c7ff;margin:8px}.cancel{width:100%;border:0;border-radius:14px;background:var(--danger);color:#fff;padding:15px;font-weight:900;cursor:pointer}
+.toast{position:absolute;left:20px;right:20px;top:38px;background:#102943;border:1px solid #1d557c;padding:11px;border-radius:12px;text-align:center;color:#d9efff;font-size:12px;z-index:10}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="phone">
+<div class="status"><span id="clock">9:41</span><span>● ● ▮</span></div>
+<div id="app" class="screen"></div>
+</div></div>
+
+<script>
+const contacts=[
+ {name:"Mom",num:"+91 98765 43210",icon:"👩"},
+ {name:"Dad",num:"+91 87654 32109",icon:"👨"},
+ {name:"Brother",num:"+91 91234 56789",icon:"🧑"},
+ {name:"Friend",num:"+91 98765 44321",icon:"🙂"}
+];
+let state={page:"splash",name:localStorage.getItem("trigvox_name")||"",account:localStorage.getItem("trigvox_account")||"Personal",history:JSON.parse(localStorage.getItem("trigvox_history")||"[]"),count:null,pending:null};
+const app=document.getElementById("app");
+
+function logo(){return `<div class="logo"><svg viewBox="0 0 100 100"><path fill="#12bff4" d="M12 15h58L55 29H45v51L29 68V29H18z"/><path fill="#1599ff" d="M69 15h18L61 57 48 46z"/><path fill="white" d="M51 50c-5-3-9-1-11 3-2 5 1 10 8 16 7 6 12 7 16 3 3-3 3-7 0-11l-5-4-6 5c-3-2-5-4-7-7z"/><path fill="#11bff3" d="M76 46c6 5 6 12 0 17l-3-3c4-3 4-8 0-11zM83 40c10 9 10 21 0 30l-3-3c8-7 8-17 0-24z"/></svg></div>`}
+function render(){
+ if(state.page==="splash"){app.innerHTML=`<div class="splash">${logo()}<div class="brand">Trig<span>vox</span></div><div class="tag">TRIGGER · CALL · CONNECT</div><div class="loading">Starting secure preview…</div></div>`;setTimeout(()=>{state.page=state.name?"home":"login";render()},900);return}
+ if(state.page==="login"){app.innerHTML=`<div class="login">${logo()}<div class="brand">Trig<span>vox</span></div><p class="sub" style="text-align:center;margin:8px 0 24px">Your quick-call companion</p><div class="card"><div class="field"><label>YOUR NAME</label><input id="nm" placeholder="Enter your name"></div><div class="field"><label>EMAIL (OPTIONAL)</label><input id="em" placeholder="you@example.com"></div><button class="primary" onclick="login()">Sign In</button></div><p class="small" style="text-align:center">🔒 Preview only — calls use your normal phone interface.</p></div>`;return}
+ if(state.page==="home") home(); else if(state.page==="profiles") profiles(); else if(state.page==="history") historyPage(); else settings();
+}
+function nav(){return `<div class="nav">${[['⌂','Home','home'],['▣','Profiles','profiles'],['◷','History','history'],['⚙','Settings','settings']].map(x=>`<button class="${state.page===x[2]?'active':''}" onclick="state.page='${x[2]}';render()"><b>${x[0]}</b>${x[1]}</button>`).join("")}</div>`}
+function home(){app.innerHTML=`<div class="top"><div><div class="hello">Hello, ${esc(state.name)} 👋</div><div class="sub">Ready when you need to call.</div></div><div class="avatar">${esc(state.name[0]||"T")}</div></div>
+<div class="hero"><div><small>SELECTED ACCOUNT</small><h2>${state.account}</h2><p>Trigvox Chrome Preview</p></div><div style="font-size:42px">☎</div></div>
+<div class="section">Quick call</div>${contacts.map((c,i)=>row(c,i)).join("")}
+<div class="section">Voice trigger</div><div class="card"><div style="font-weight:800">🎙️ “Help, call Mom”</div><p class="small">This browser preview simulates the voice trigger.</p><button class="outline" onclick="requestCall(0)">Test Help, call Mom</button></div>
+<div class="card"><b>Security confirmation</b><p class="small">A visible 10-second countdown appears before the phone call action.</p></div>${nav()}`; }
+function row(c,i){return `<div class="row" onclick="requestCall(${i})"><div class="contactIcon">${c.icon}</div><div class="grow"><div class="name">${c.name}</div><div class="number">${c.num}</div></div><div class="call">☎</div></div>`}
+function profiles(){app.innerHTML=`<div class="pageTitle">Calling accounts</div><p class="sub">Choose the profile for this preview.</p>${["Personal","Work"].map(a=>`<div class="account ${state.account===a?'selected':''}" onclick="state.account='${a}';localStorage.setItem('trigvox_account','${a}');render()"><div style="font-size:27px">${a==="Personal"?"📱":"💼"}</div><div class="grow"><b>${a}</b><div class="small">Demo calling account</div></div><div class="radio">${state.account===a?"●":"○"}</div></div>`).join("")}<div class="card"><b>Expo / browser limitation</b><p class="small">Real SIM/PhoneAccount selection needs a native Android build.</p></div>${nav()}`}
+function historyPage(){app.innerHTML=`<div class="pageTitle">Call history</div><p class="sub">Your local browser preview history.</p>${state.history.length?state.history.map(h=>`<div class="history"><div class="call">☎</div><div class="grow"><b>${h.name}</b><div class="small">${h.account} · ${h.time}</div></div></div>`).join("")+`<button class="danger" onclick="state.history=[];localStorage.setItem('trigvox_history','[]');render()">Clear history</button>`:`<div class="empty">☎<h3 style="color:white">No calls yet</h3>Tap a contact on Home to test the calling flow.</div>`}${nav()}`}
+function settings(){app.innerHTML=`<div class="pageTitle">Settings</div><div class="card"><b>Account</b><p class="small">${esc(state.name)}</p></div><div class="card"><b>Security</b><p class="small">✓ Visible confirmation countdown<br>✓ No caller-ID spoofing<br>✓ No arbitrary phone numbers<br>✓ Preview data stays in this browser</p></div><button class="danger" onclick="localStorage.clear();location.reload()">Sign out</button>${nav()}`}
+function login(){const n=document.getElementById("nm").value.trim();if(!n){alert("Enter your name");return}state.name=n;localStorage.setItem("trigvox_name",n);state.page="home";render()}
+let recognition=null, audioCtx=null;
+
+function requestCall(i){
+ state.pending=contacts[i]; state.count=10; renderCall(); startVoiceCancel();
+}
+
+function beep(freq=760,duration=100){
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.frequency.value=freq;o.type="sine";g.gain.value=.045;
+  o.connect(g);g.connect(audioCtx.destination);o.start();
+  setTimeout(()=>{o.stop();o.disconnect();g.disconnect()},duration);
+ }catch(e){}
+}
+
+function startVoiceCancel(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){const el=document.getElementById("listenState");if(el)el.textContent="🎙 Voice cancel needs Chrome speech recognition.";return;}
+ try{
+  recognition=new SR();recognition.lang="en-IN";recognition.continuous=true;recognition.interimResults=false;
+  recognition.onresult=e=>{
+   const text=Array.from(e.results).slice(-3).map(r=>r[0].transcript.toLowerCase()).join(" ");
+   if(text.includes("cancel call")||text.includes("cancel")||text.includes("stop call"))cancelCall();
+  };
+  recognition.onerror=()=>{};
+  recognition.onend=()=>{if(state.pending&&state.count!==null){try{recognition.start()}catch(e){}}};
+  recognition.start();
+ }catch(e){}
+}
+
+function stopVoiceCancel(){
+ if(recognition){try{recognition.onend=null;recognition.stop()}catch(e){}recognition=null}
+}
+
+function renderCall(){
+ const c=state.pending;const old=document.querySelector(".overlay");if(old)old.remove();
+ const o=document.createElement("div");o.className="overlay";
+ o.innerHTML=`<div class="modal"><div class="ring">☎</div><div class="small" style="letter-spacing:2px;margin-top:14px">CALL REQUEST</div><h2 style="margin:5px 0">Calling ${c.name}</h2><div class="small">${c.num}</div><div class="small" style="margin-top:20px">Starting in</div><div class="count">${state.count}</div><div style="font-weight:800;color:#dff6ff;margin-top:2px">Say “Cancel call” to stop</div><div class="small" style="margin-top:8px">No cancel button — voice confirmation only.</div><div id="listenState" class="small" style="color:#20c8ff;margin-top:12px">🎙 Listening for “Cancel call”…</div></div>`;
+ document.querySelector(".phone").appendChild(o);
+ beep(state.count<=3?980:700,state.count<=3?150:90);
+ if(state.count>0)setTimeout(()=>{if(state.pending){state.count--;renderCall()}},1000);else finishCall();
+}
+
+function cancelCall(){
+ stopVoiceCancel();state.pending=null;state.count=null;render();toast("Call cancelled — back to Home");
+}
+
+function finishCall(){
+ const c=state.pending;stopVoiceCancel();
+ state.history.unshift({name:c.name,account:state.account,time:new Date().toLocaleString()});
+ state.history=state.history.slice(0,30);localStorage.setItem("trigvox_history",JSON.stringify(state.history));
+ state.pending=null;state.count=null;render();toast("Call started");
+ setTimeout(()=>{try{window.location.href="tel:"+c.num.replace(/\s/g,"")}catch(e){}},400);
+}
+function toast(msg){const t=document.createElement("div");t.className="toast";t.textContent=msg;document.querySelector(".phone").appendChild(t);setTimeout(()=>t.remove(),2500)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+setInterval(()=>document.getElementById("clock").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}),1000);
+render();
+</script>
+</body>
+</html>
