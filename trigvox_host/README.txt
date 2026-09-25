@@ -1,11 +1,5 @@
 TRIGVOX Chrome Preview — Voice Cancel
 
-- 10-second countdown
-- Beep on every countdown number
-- No cancel button during the countdown
-- Say “Cancel call”, “Cancel”, or “Stop call” to cancel
-- After cancellation, it immediately returns to Home
-- If not cancelled, it attempts the normal tel: phone action
-- Chrome speech recognition/microphone permission is required for voice cancellation
+Settings now includes a visible VOICE CANCELLATION PHRASE field. Enter your own phrase, for example “Stop TrigVox”, save it, then say that phrase during the countdown to cancel the pending call.
 
-This is a browser prototype. Reliable background voice recognition, lock-screen triggers, SIM/PhoneAccount selection and Android Telecom integration require the native Android app.
+The web version uses browser speech recognition where supported. Reliable background/lock-screen recognition and direct SIM calling require the native Android app.
