@@ -1,0 +1,17 @@
+{
+  "name": "TrigVox",
+  "short_name": "TrigVox",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020711",
+  "theme_color": "#071426",
+  "description": "TrigVox quick-call safety companion",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
