@@ -31,6 +31,23 @@ create table if not exists public.call_history (
   created_at timestamptz not null default now()
 );
 
+
+create table if not exists public.live_locations (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  latitude double precision not null,
+  longitude double precision not null,
+  accuracy double precision,
+  active boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+alter table public.live_locations enable row level security;
+drop policy if exists "live_location_select_own" on public.live_locations;
+drop policy if exists "live_location_insert_own" on public.live_locations;
+drop policy if exists "live_location_update_own" on public.live_locations;
+create policy "live_location_select_own" on public.live_locations for select using (auth.uid() = user_id);
+create policy "live_location_insert_own" on public.live_locations for insert with check (auth.uid() = user_id);
+create policy "live_location_update_own" on public.live_locations for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 alter table public.profiles enable row level security;
 alter table public.contacts enable row level security;
 alter table public.call_history enable row level security;
