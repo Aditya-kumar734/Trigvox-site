@@ -6,7 +6,9 @@ create extension if not exists pgcrypto;
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   name text not null default 'User',
-  settings jsonb not null default '{"shareLocation":false,"policeFallback":false,"policeNumber":"112","beeps":true,"cancelPhrase":"Cancel call"}'::jsonb,
+  phone text not null default '',
+  avatar_data text,
+  settings jsonb not null default '{"shareLocation":false,"policeFallback":false,"policeNumber":"112","beeps":true,"cancelPhrase":"Cancel call","activationPhrase":"TrigVox"}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -94,3 +96,7 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
 after insert on auth.users
 for each row execute procedure public.handle_new_user();
+
+-- Safe upgrades for an existing TrigVox database
+alter table public.profiles add column if not exists phone text not null default '';
+alter table public.profiles add column if not exists avatar_data text;
